@@ -7,27 +7,24 @@ const Page: VFC = () => {
   const toppage = 1;
   const lastpage = 4;
 
-  const { currentPage, top, next, back, last, reset } = useLocalHistory(
-    toppage,
-    lastpage,
-  );
+  const [currentPage, history] = useLocalHistory(toppage, lastpage);
 
   return (
     <div style={{ textAlign: 'center', marginTop: '300px' }}>
       <div style={{ marginBottom: '24px' }}>現在のページ: {currentPage}</div>
-      <button type='button' onClick={() => top()}>
+      <button type='button' onClick={() => history.top()}>
         トップ
       </button>
-      <button type='button' onClick={() => next()}>
+      <button type='button' onClick={() => history.next()}>
         次へ
       </button>
-      <button type='button' onClick={() => back()}>
+      <button type='button' onClick={() => history.back()}>
         戻る
       </button>
-      <button type='button' onClick={() => last()}>
+      <button type='button' onClick={() => history.last()}>
         ラスト
       </button>
-      <button type='button' onClick={() => reset()}>
+      <button type='button' onClick={() => history.reset()}>
         リセット
       </button>
     </div>

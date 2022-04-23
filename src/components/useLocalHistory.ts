@@ -1,6 +1,17 @@
 import { useState } from 'react';
 
-const useLocalHistory = (toppage: number, lastpage: number) => {
+interface LocalHistory {
+  top: () => void;
+  next: () => void;
+  back: () => void;
+  last: () => void;
+  reset: () => void;
+}
+
+const useLocalHistory = (
+  toppage: number,
+  lastpage: number,
+): [number, LocalHistory] => {
   const initHistory: number[] = [toppage];
   const [history, setHistory] = useState<number[]>(initHistory);
 
@@ -33,7 +44,7 @@ const useLocalHistory = (toppage: number, lastpage: number) => {
 
   const reset = () => setHistory(initHistory);
 
-  return { currentPage, top, next, back, last, reset };
+  return [currentPage, { top, next, back, last, reset }];
 };
 
 export default useLocalHistory;
