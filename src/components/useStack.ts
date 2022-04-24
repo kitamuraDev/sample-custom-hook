@@ -16,13 +16,11 @@ const useStack = <T>(init?: T[]): [T, Stack<T>] => {
       return;
     }
 
-    const newStack = [...stack.slice(0, stack.length - 1)];
-    setStack(newStack);
+    setStack((prevState) => [...prevState.slice(0, prevState.length - 1)]);
   };
 
   const push = (v: T): void => {
-    const newStack = [...stack, v];
-    setStack(newStack);
+    setStack((prevState) => [...prevState, v]);
   };
 
   const reset = (): void => {
