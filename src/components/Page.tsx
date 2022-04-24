@@ -1,13 +1,16 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-handler-names */
 import { VFC } from 'react';
 
-import useLocalHistory from './useLocalHistory';
+import useLocalHistory, { LocalHistory } from './useLocalHistory';
 
-const Page: VFC = () => {
-  const toppage = 1;
-  const lastpage = 4;
+interface PageProps {
+  currentPage: number;
+  history: LocalHistory;
+}
 
-  const [currentPage, history] = useLocalHistory(toppage, lastpage);
+const Page: VFC<PageProps> = (props) => {
+  const { currentPage, history } = props;
 
   return (
     <div style={{ textAlign: 'center', marginTop: '300px' }}>
@@ -31,4 +34,13 @@ const Page: VFC = () => {
   );
 };
 
-export default Page;
+const PageContainer = () => {
+  const toppage = 1;
+  const lastpage = 4;
+
+  const [currentPage, history] = useLocalHistory(toppage, lastpage);
+
+  return <Page currentPage={currentPage} history={history} />;
+};
+
+export default PageContainer;
