@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import useStack from './useStack';
 
 interface LocalHistory {
   top: () => void;
@@ -13,36 +13,30 @@ const useLocalHistory = (
   lastpage: number,
 ): [number, LocalHistory] => {
   const initHistory: number[] = [toppage];
-  const [history, setHistory] = useState<number[]>(initHistory);
-
-  const currentPage = history[history.length - 1];
+  const [currentPage, stack] = useStack<number>(initHistory);
 
   const top = () => {
     if (currentPage === toppage) return;
-    const nextHistory = [...history, toppage];
-    setHistory(nextHistory);
+    stack.push(toppage);
   };
 
   const next = () => {
     const nextpage = currentPage + 1;
     if (lastpage < nextpage) return;
-    const nextHistory = [...history, nextpage];
-    setHistory(nextHistory);
+    stack.push(nextpage);
   };
 
   const back = () => {
-    if (history.length <= 1) return;
-    const nextHistory = [...history.slice(0, history.length - 1)];
-    setHistory(nextHistory);
+    if (stack.length() <= 1) return;
+    stack.pop();
   };
 
   const last = () => {
     if (currentPage === lastpage) return;
-    const nextHistory = [...history, lastpage];
-    setHistory(nextHistory);
+    stack.push(lastpage);
   };
 
-  const reset = () => setHistory(initHistory);
+  const reset = () => stack.reset();
 
   return [currentPage, { top, next, back, last, reset }];
 };
